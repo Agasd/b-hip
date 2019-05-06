@@ -30,8 +30,11 @@ mongoose.connect(mongo_uri, { useNewUrlParser: true }, function(err) {
   }
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
-
+if (process.env.NODE_ENV === "production") {
+  // Express will serve up production assets
+  app.use(express.static("build"));
+  app.get("*", (req, res) => res.sendFile(path.resolve("build", "index.html")));
+}
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -142,4 +145,7 @@ app.get('/checkToken', withAuth, function(req, res) {
   res.sendStatus(200);
 });
 
-app.listen(process.env.PORT || 8080);
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Mixing it up on port ${PORT}`);
+});
