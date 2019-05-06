@@ -14,12 +14,10 @@ export default class Login extends Component {
     };
   }
   componentDidMount() {
-    fetch('/checkToken')
+    fetch('/api/checkToken')
         .then(res => {
           if (res.status === 200) {
-            this.setState({ loading: false });
             this.setState({ loading: false, redirect: true });
-
           } else {
             const error = new Error(res.error);
             throw error;

@@ -35,7 +35,13 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("build"));
   app.get("*", (req, res) => res.sendFile(path.resolve("build", "index.html")));
 }
-
+if (process.env.NODE_ENV === "dev") {
+  // Express will serve up production assets
+  app.use(express.static("public"));
+  app.get("*", (req, res) =>
+      res.sendFile(path.resolve("public", "index.html"))
+  );
+}
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -141,7 +147,7 @@ app.post('/api/authenticate', function(req, res) {
   });
 });
 
-app.get('/checkToken', withAuth, function(req, res) {
+app.get('/api/checkToken', withAuth, function(req, res) {
   res.sendStatus(200);
 });
 
