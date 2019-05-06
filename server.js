@@ -151,7 +151,7 @@ app.get('/api/checkToken', withAuth, function(req, res) {
   res.sendStatus(200);
 });
 
-const PORT = process.env.PORT || 8080;
+const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Mixing it up on port ${PORT}`);
 });
