@@ -10,7 +10,6 @@
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.3",
-    "http-proxy-middleware": "^0.19.1",
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.4.3",
     "react": "^16.4.2",
@@ -28,6 +27,7 @@
     "server": "node server.js",
     "server-dev": "nodemon server.js"
   },
+  "proxy": "http://localhost:8080/",
   "devDependencies": {
     "nodemon": "^1.18.4"
   },
