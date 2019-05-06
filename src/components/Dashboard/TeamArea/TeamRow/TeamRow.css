@@ -1,0 +1,45 @@
+.container {
+    margin-bottom: 30px;
+}
+.item {
+    padding: 20px;
+
+}
+.contentText {
+    list-style-type: none;
+    text-align: justify-all;
+}
+.contentText > li > h2 {
+    font-weight: 600;
+    font-size: 1.1em;
+    margin-bottom: 40px;
+}
+
+.buttonContainer {
+    text-align: center;
+    padding-top: 20px;
+
+}
+.buttonContainer  Button{
+    margin: 3px;
+    min-width: 170px;
+}
+.buttonContainer > a {
+    text-decoration: none;
+}
+@media only screen and (max-width: 1280px)  {
+    .contentText{
+        text-align: center;
+        font-size: 2.5rem;
+        padding: 0;
+    }
+    .contentText > h2{
+        text-align: center;
+        font-size: 1.3em
+    }
+    .buttonContainer Button {
+        width: 70%;
+        font-size: 2.5em;
+        margin-bottom: 20px;
+    }
+}

@@ -1,0 +1,17 @@
+.header {
+    width: 100%;
+    padding: 20px;
+    background: #2196f3;
+    display: inline-block;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+
+}
+#headerText {
+    display: inline-block;
+    color: white;
+}
+#logoutBtn {
+    display: inline-block;
+    float: right;
+}
