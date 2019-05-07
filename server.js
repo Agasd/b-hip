@@ -57,13 +57,15 @@ app.get('/api/allTeams', withAuth, function (req, res) {
 
 app.post('/api/updateTeam', withAuth, function (req, res) {
     const {team} = req.body;
+    const newTeam = {'name': team.name, 'partner':team.partner, 'members': team.members};
     Team.findOneAndUpdate(
-        team._id,
-        team,
+        {_id: team._id},
+        newTeam,
         {new: true},
-        (err, todo) => {
+        (err) => {
+            console.log(err);
             if (err) return res.status(500).send(err);
-            return res.send(todo);
+            return res.send(err);
         }
     )
 });
