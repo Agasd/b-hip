@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import {Redirect} from "react-router-dom";
+import React, {Component} from 'react';
 import TeamButton from "./TeamButton/TeamButton";
 import {Typography} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
@@ -20,13 +19,15 @@ export default class TeamArea extends Component {
             rows: [],
             message: '',
             messageOpen: false,
-            deleteDialogOpen:false,
+            deleteDialogOpen: false,
             deleteRowId: -1
         };
     }
+
     componentDidMount() {
         this.updateRows();
     }
+
     updateRows = () => {
         const axios = require('axios');
         axios.get('/api/allTeams')
@@ -85,11 +86,12 @@ export default class TeamArea extends Component {
 
     };
     handleClose = (event, reason) => {
-        this.setState({ messageOpen: false });
+        this.setState({messageOpen: false});
     };
     handleDeleteDialogClose = (event, reason) => {
-        this.setState({ deleteDialogOpen: false });
+        this.setState({deleteDialogOpen: false});
     };
+
     render() {
         const rows = this.state.rows.map((item, i) =>
             <React.Fragment key={item._id}>
@@ -103,7 +105,8 @@ export default class TeamArea extends Component {
                       sm={6}
                       xs={12}
                 >
-                    <TeamRow handleRowDeletion={this.handleRowDeleteClick} name={item.name} partner={item.partner} id={item._id}/>
+                    <TeamRow handleRowDeletion={this.handleRowDeleteClick} name={item.name} partner={item.partner}
+                             id={item._id}/>
                 </Grid>
                 <Grid item
                       className="spacer"
@@ -113,7 +116,7 @@ export default class TeamArea extends Component {
                 </Grid>
             </React.Fragment>
         );
-        return(
+        return (
             <div>
                 <Typography align={"center"} variant="h3" gutterBottom>
                     Manage Teams

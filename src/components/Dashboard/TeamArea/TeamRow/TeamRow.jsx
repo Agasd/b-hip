@@ -6,22 +6,21 @@ import React, {Component} from "react";
 import {Link} from "react-router-dom";
 
 import './TeamRow.css';
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
 
 export class TeamRow extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             open: false,
         };
     }
+
     handleDeleteClick = () => {
         this.props.handleRowDeletion(this.props.id);
     };
-    render(){
-    return(
+
+    render() {
+        return (
             <Paper>
                 <Grid container className="container"
                       direction="row"
@@ -41,7 +40,7 @@ export class TeamRow extends Component {
                             </li>
                         </ul>
                     </Grid>
-                    <Grid item  className="buttonContainer"
+                    <Grid item className="buttonContainer"
                           sm={12}
                           lg={3}
                     >
@@ -61,5 +60,6 @@ export class TeamRow extends Component {
                     </Grid>
                 </Grid>
             </Paper>
-    )}
+        )
+    }
 }

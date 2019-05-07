@@ -9,15 +9,17 @@ export default class Logout extends Component {
             logout: false
         }
     }
+
     handleLogout = () => {
         fetch('/api/logout');
         this.setState({
             logout: true
         })
     };
+
     render() {
-        if(this.state.logout) {
-            return <Redirect to="/" />;
+        if (this.state.logout) {
+            return <Redirect to="/"/>;
         }
         return (
             <div id={this.props.id}>

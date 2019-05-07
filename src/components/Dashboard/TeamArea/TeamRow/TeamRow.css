@@ -1,14 +1,17 @@
 .container {
     margin-bottom: 30px;
 }
+
 .item {
     padding: 20px;
 
 }
+
 .contentText {
     list-style-type: none;
     text-align: justify-all;
 }
+
 .contentText > li > h2 {
     font-weight: 600;
     font-size: 1.1em;
@@ -20,23 +23,28 @@
     padding-top: 20px;
 
 }
-.buttonContainer  Button{
+
+.buttonContainer Button {
     margin: 3px;
     min-width: 170px;
 }
+
 .buttonContainer > a {
     text-decoration: none;
 }
-@media only screen and (max-width: 1280px)  {
-    .contentText{
+
+@media only screen and (max-width: 1280px) {
+    .contentText {
         text-align: center;
         font-size: 2.5rem;
         padding: 0;
     }
-    .contentText > h2{
+
+    .contentText > h2 {
         text-align: center;
         font-size: 1.3em
     }
+
     .buttonContainer Button {
         width: 70%;
         font-size: 2.5em;

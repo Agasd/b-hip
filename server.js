@@ -17,141 +17,153 @@ const app = express();
 
 const secret = 'tLp@:Pr<[}.#.4S!';
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
 const mongo_uri = 'mongodb://localhost/bhip';
-mongoose.connect(mongo_uri, { useNewUrlParser: true }, function(err) {
-  if (err) {
-    throw err;
-  } else {
-    console.log(`Successfully connected to ${mongo_uri}`);
-  }
+mongoose.connect(mongo_uri, {useNewUrlParser: true}, function (err) {
+    if (err) {
+        throw err;
+    } else {
+        console.log(`Successfully connected to ${mongo_uri}`);
+    }
 });
 
 if (process.env.NODE_ENV === "production") {
-  // Express will serve up production assets
-  app.use(express.static("build"));
-  app.get("*", (req, res) => res.sendFile(path.resolve("build", "index.html")));
+    // Express will serve up production assets
+    app.use(express.static("build"));
+    app.get("*", (req, res) => res.sendFile(path.resolve("build", "index.html")));
 }
 if (process.env.NODE_ENV === "dev") {
-  // Express will serve up production assets
-  app.use(express.static("public"));
-  app.get("*", (req, res) =>
-      res.sendFile(path.resolve("public", "index.html"))
-  );
+    // Express will serve up production assets
+    app.use(express.static("public"));
+    app.get("*", (req, res) =>
+        res.sendFile(path.resolve("public", "index.html"))
+    );
 }
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 
-app.get('/api/allTeams', withAuth, function(req, res) {
-  Team.find({},function (err,team) {
-    res.status(200).send({
-      content: team
-    })
-  });
+app.get('/api/allTeams', withAuth, function (req, res) {
+    Team.find({}, function (err, team) {
+        res.status(200).send({
+            content: team
+        })
+    });
 });
 
-app.post('/api/newTeam', withAuth, function(req, res) {
-  const { name, partner } = req.body;
-  const team = new Team({ name, partner });
-  team.save(function(err) {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Error registering new user please try again.");
-    } else {
-      res.status(200).send("Successful registration");
-    }
-  });
-});
-app.post('/api/oneTeam', withAuth, function(req, res) {
-  const { id } = req.body;
-  Team.findOne({ _id: id }, function (err, team) {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Error finding user please try again.");
-    } else {
-      res.status(200).send({content: team});
-    }
-  });
-});
-app.post('/api/delete', withAuth, function(req, res) {
-  const { id } = req.body;
-  console.log(req.body);
-  console.log("id: "+id);
-  Team.deleteOne({ _id: id }, function (err) {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Error deleting user please try again.");
-    } else {
-      res.status(200).send("Successful registration");
-    }
-  });
-});
-app.post('/api/register', function(req, res) {
-  const { email, password } = req.body;
-  const user = new User({ email, password });
-  user.save(function(err) {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Error registering new user please try again.");
-    } else {
-      res.status(200).send("Successful registration");
-    }
-  });
-});
-
-app.get('/api/logout', function(req, res) {
-  res.clearCookie("token").redirect('/').sendStatus(200);
-});
-
-app.post('/api/authenticate', function(req, res) {
-  const { email, password } = req.body;
-  User.findOne({ email }, function(err, user) {
-    if (err) {
-      console.error(err);
-      res.status(500)
-        .json({
-        error: 'Internal error please try again'
-      });
-    } else if (!user) {
-      res.status(401)
-        .json({
-        error: 'Incorrect email or password'
-      });
-    } else {
-      user.isCorrectPassword(password, function(err, same) {
-        if (err) {
-          res.status(500)
-            .json({
-            error: 'Internal error please try again'
-          });
-        } else if (!same) {
-          res.status(401)
-            .json({
-            error: 'Incorrect email or password'
-          });
-        } else {
-          // Issue token
-          const payload = { email };
-          const token = jwt.sign(payload, secret, {
-            expiresIn: '1h'
-          });
-          res.cookie('token', token, { httpOnly: true }).sendStatus(200);
+app.post('/api/updateTeam', withAuth, function (req, res) {
+    const {team} = req.body;
+    Team.findOneAndUpdate(
+        team._id,
+        team,
+        {new: true},
+        (err, todo) => {
+            if (err) return res.status(500).send(err);
+            return res.send(todo);
         }
-      });
-    }
-  });
+    )
+});
+app.post('/api/newTeam', withAuth, function (req, res) {
+    const {name, partner} = req.body;
+    const team = new Team({name, partner});
+    team.save(function (err) {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Error registering new user please try again.");
+        } else {
+            res.status(200).send("Successful registration");
+        }
+    });
+});
+app.post('/api/oneTeam', withAuth, function (req, res) {
+    const {id} = req.body;
+    Team.findOne({_id: id}, function (err, team) {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Error finding user please try again.");
+        } else {
+            res.status(200).send({content: team});
+        }
+    });
+});
+app.post('/api/delete', withAuth, function (req, res) {
+    const {id} = req.body;
+    console.log(req.body);
+    console.log("id: " + id);
+    Team.deleteOne({_id: id}, function (err) {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Error deleting user please try again.");
+        } else {
+            res.status(200).send("Successful registration");
+        }
+    });
+});
+app.post('/api/register', function (req, res) {
+    const {email, password} = req.body;
+    const user = new User({email, password});
+    user.save(function (err) {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Error registering new user please try again.");
+        } else {
+            res.status(200).send("Successful registration");
+        }
+    });
 });
 
-app.get('/api/checkToken', withAuth, function(req, res) {
-  res.sendStatus(200);
+app.get('/api/logout', function (req, res) {
+    res.clearCookie("token").redirect('/').sendStatus(200);
+});
+
+app.post('/api/authenticate', function (req, res) {
+    const {email, password} = req.body;
+    User.findOne({email}, function (err, user) {
+        if (err) {
+            console.error(err);
+            res.status(500)
+                .json({
+                    error: 'Internal error please try again'
+                });
+        } else if (!user) {
+            res.status(401)
+                .json({
+                    error: 'Incorrect email or password'
+                });
+        } else {
+            user.isCorrectPassword(password, function (err, same) {
+                if (err) {
+                    res.status(500)
+                        .json({
+                            error: 'Internal error please try again'
+                        });
+                } else if (!same) {
+                    res.status(401)
+                        .json({
+                            error: 'Incorrect email or password'
+                        });
+                } else {
+                    // Issue token
+                    const payload = {email};
+                    const token = jwt.sign(payload, secret, {
+                        expiresIn: '1h'
+                    });
+                    res.cookie('token', token, {httpOnly: true}).sendStatus(200);
+                }
+            });
+        }
+    });
+});
+
+app.get('/api/checkToken', withAuth, function (req, res) {
+    res.sendStatus(200);
 });
 
 const PORT = 5000;
 app.listen(PORT, () => {
-  console.log(`Mixing it up on port ${PORT}`);
+    console.log(`Mixing it up on port ${PORT}`);
 });

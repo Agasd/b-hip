@@ -10,21 +10,22 @@ export default class TeamButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name : '',
+            name: '',
             partner: '',
             open: false,
 
         }
     }
+
     handleClickOpen = () => {
-        this.setState({ open: true });
+        this.setState({open: true});
     };
 
     handleClose = () => {
-        this.setState({ open: false });
+        this.setState({open: false});
     };
     handleInputChange = (event) => {
-        const { value, name } = event.target;
+        const {value, name} = event.target;
         this.setState({
             [name]: value
         });
@@ -52,6 +53,7 @@ export default class TeamButton extends Component {
             });
 
     };
+
     render() {
         return (
             <div>
@@ -72,17 +74,17 @@ export default class TeamButton extends Component {
                     <DialogTitle id="form-dialog-title">Register new team</DialogTitle>
                     <DialogContent>
                         <TextField
-                        autoFocus
-                        margin="normal"
-                        id="name"
-                        name="name"
-                        label="Team name"
+                            autoFocus
+                            margin="normal"
+                            id="name"
+                            name="name"
+                            label="Team name"
 
-                        value={this.state.name}
-                        onChange={this.handleInputChange}
+                            value={this.state.name}
+                            onChange={this.handleInputChange}
 
-                        fullWidth
-                        required
+                            fullWidth
+                            required
                         />
                         <TextField
                             margin="normal"

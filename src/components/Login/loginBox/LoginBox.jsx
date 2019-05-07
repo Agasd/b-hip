@@ -8,22 +8,26 @@ import './LoginBox.css';
 import {withRouter} from "react-router-dom";
 import Snackbar from "@material-ui/core/Snackbar";
 
-
+/*
+ *This component has the actual logic for login
+ * It's reusable for other user types with no or only minor changes
+ * */
 class LoginBox extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email : '',
+            email: '',
             password: '',
             open: false
         };
 
     }
+
     handleClose = (event, reason) => {
-        this.setState({ open: false });
+        this.setState({open: false});
     };
     handleInputChange = (event) => {
-        const { value, name } = event.target;
+        const {value, name} = event.target;
         this.setState({
             [name]: value
         });
@@ -47,52 +51,53 @@ class LoginBox extends Component {
                 }
             })
             .catch(err => {
-                this.setState({ open: true });
+                this.setState({open: true});
             });
     };
+
     render() {
-        return(
+        return (
             <div>
                 <Paper className={"loginBox"} elevation={1}>
                     <form onSubmit={this.onSubmit}>
-                            <Typography align={"center"} variant="h5" gutterBottom>{this.props.title}</Typography>
-                            <TextField
-                                id="standard-with-placeholder"
-                                label="Email"
-                                name="email"
-                                margin="normal"
+                        <Typography align={"center"} variant="h5" gutterBottom>{this.props.title}</Typography>
+                        <TextField
+                            id="standard-with-placeholder"
+                            label="Email"
+                            name="email"
+                            margin="normal"
 
-                                type="email"
+                            type="email"
 
-                                value={this.state.email}
-                                onChange={this.handleInputChange}
+                            value={this.state.email}
+                            onChange={this.handleInputChange}
 
-                                fullWidth
-                                required
-                            />
-                            <TextField
-                                id="standard-password-input"
-                                label="Password"
-                                type="password"
-                                name="password"
-                                autoComplete="current-password"
-                                margin="normal"
+                            fullWidth
+                            required
+                        />
+                        <TextField
+                            id="standard-password-input"
+                            label="Password"
+                            type="password"
+                            name="password"
+                            autoComplete="current-password"
+                            margin="normal"
 
-                                value={this.state.password}
-                                onChange={this.handleInputChange}
+                            value={this.state.password}
+                            onChange={this.handleInputChange}
 
-                                fullWidth
-                                required
-                            />
-                            <Button variant="contained" type="submit" color="primary" id={"loginButton"}>
-                                Login
-                            </Button>
+                            fullWidth
+                            required
+                        />
+                        <Button variant="contained" type="submit" color="primary" id={"loginButton"}>
+                            Login
+                        </Button>
                     </form>
                 </Paper>
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'bottom',
-                            horizontal: 'left',
+                        horizontal: 'left',
                     }}
                     open={this.state.open}
                     autoHideDuration={6000}
@@ -102,14 +107,15 @@ class LoginBox extends Component {
                     }}
                     message={<span id="message-id">Invalid email or password</span>}
                     action={[
-                            <Button key="undo" color="secondary" size="small" onClick={this.handleClose}>
-                                CLOSE
-                            </Button>,
-                ]}
+                        <Button key="undo" color="secondary" size="small" onClick={this.handleClose}>
+                            CLOSE
+                        </Button>,
+                    ]}
                 />
             </div>
         )
     }
 
 }
+
 export default withRouter(LoginBox)

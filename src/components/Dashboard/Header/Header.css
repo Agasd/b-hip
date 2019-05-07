@@ -7,10 +7,12 @@
     margin-bottom: 30px;
 
 }
+
 #headerText {
     display: inline-block;
     color: white;
 }
+
 #logoutBtn {
     display: inline-block;
     float: right;
